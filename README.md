@@ -4,12 +4,14 @@ This is a fully functional AI-based online exam proctoring system built using Fl
 
 🎯 Features:
 
+
 👁️ Real-time webcam proctoring using browser APIs (no external installation required).
 
 ❗ Tab switch detection to prevent cheating.
 
 
 📊 Proctoring summary after test completion:
+
 
 Webcam monitoring percentage.
 
@@ -55,28 +57,44 @@ python app.py
 📁 Project Structure:
 /online-proctoring-system
 │
-├── app.py                  # Flask backend
+
+├── app.py          
+# Flask backend
 ├── templates/
-│   ├── index.html          # Landing page
-│   ├── test.html           # Quiz interface with webcam and tracking
-│   └── result.html         # Final score and proctoring summary
+
+│   ├── index.html  
+# Landing page
+│   ├── test.html     
+# Quiz interface with webcam and tracking
+│   └── result.html   
+# Final score and proctoring summary
 │
 ├── static/
-│   ├── style.css           # Custom styles
-│   └── script.js           # (Optional JS if external)
+
+│   ├── style.css  
+# Custom styles
+│   └── script.js   
+# (Optional JS if external)
 │
-└── README.md               # Project documentation
+└── README.md      
+# Project documentation
 
 
 📌 Example Output:
 
 
 Test Completed
+
 Score: 8 / 10
+
 Time Taken: 60 seconds
+
 Proctoring Summary:
+
 Webcam Status: 93% (Good)
+
 Tab Switches: 1
+
 Overall Status: Clean
 
 
