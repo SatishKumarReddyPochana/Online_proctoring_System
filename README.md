@@ -72,17 +72,11 @@ python app.py
 
 
 Test Completed
-
 Score: 8 / 10
-
 Time Taken: 60 seconds
-
 Proctoring Summary:
-
 Webcam Status: 93% (Good)
-
 Tab Switches: 1
-
 Overall Status: Clean
 
 
