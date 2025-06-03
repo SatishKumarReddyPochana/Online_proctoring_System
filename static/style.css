@@ -1,0 +1,83 @@
+/* static/style.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f7fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 700px;
+    margin: 50px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.center {
+    text-align: center;
+}
+
+h1, h2, h3 {
+    color: #2c3e50;
+}
+
+p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.btn {
+    background: #3498db;
+    color: white;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background: #2980b9;
+}
+
+.option {
+    display: block;
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+.question-box {
+    margin-top: 20px;
+}
+
+.progress-bar {
+    height: 15px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    margin-top: 30px;
+    overflow: hidden;
+}
+
+#progress {
+    height: 100%;
+    background: #2ecc71;
+    width: 0%;
+    transition: width 0.5s ease-in-out;
+}
+
+.proctoring {
+    margin-top: 30px;
+    text-align: center;
+}
+
+video {
+    margin-top: 10px;
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}

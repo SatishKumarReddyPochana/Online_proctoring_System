@@ -1,0 +1,20 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Proctoring Test</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container center">
+        <h1>Welcome to the Online Proctoring Test</h1>
+        <p>This test is monitored via webcam. Please allow access and remain visible during the test.</p>
+        <form action="/start" method="POST">
+            <button type="submit" class="btn">Start Test</button>
+        </form>
+    </div>
+</body>
+</html>
+
+

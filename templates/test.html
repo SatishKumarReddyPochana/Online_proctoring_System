@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Online Proctoring Test</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+  /* Add minimal styles here if needed or rely on your style.css */
+  #webcam {
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    width: 320px;
+    height: 240px;
+    background: black;
+    display: block;
+    margin: 10px auto;
+  }
+  .question-box {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  .options label {
+    display: block;
+    margin: 8px 0;
+    font-size: 16px;
+  }
+  #nextBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #3498db;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+  }
+  #nextBtn:disabled {
+    background: #a0c4f3;
+    cursor: not-allowed;
+  }
+  .progress-bar {
+    margin-top: 20px;
+    background: #e0e0e0;
+    border-radius: 20px;
+    height: 20px;
+    width: 100%;
+  }
+  #progress {
+    height: 100%;
+    background: #2ecc71;
+    width: 0%;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+  }
+</style>
+</head>
+<body>
+<div class="container center">
+  <h2>Online Proctoring Test</h2>
+
+  <video id="webcam" autoplay playsinline muted></video>
+
+  <div class="progress-bar">
+    <div id="progress"></div>
+  </div>
+
+  <form id="quizForm" method="POST" action="/submit">
+    <div class="question-box" id="question">{{ question.question }}</div>
+    <div class="options" id="options">
+      {% for opt in question.options %}
+        <label><input type="radio" name="option" value="{{ opt }}" required> {{ opt }}</label>
+      {% endfor %}
+    </div>
+    <button type="submit" id="nextBtn" disabled>Next</button>
+  </form>
+</div>
+
+<script>
+  // Enable Next button only when an option is selected
+  const quizForm = document.getElementById('quizForm');
+  const nextBtn = document.getElementById('nextBtn');
+
+  quizForm.addEventListener('change', (e) => {
+    if (e.target.name === 'option') {
+      nextBtn.disabled = false;
+    }
+  });
+
+  // Progress bar update
+  const progress = document.getElementById('progress');
+  const current = {{ current }};
+  const total = {{ total }};
+  progress.style.width = ((current - 1) / total) * 100 + '%';
+
+  // Webcam + tab switch proctoring logic
+  const video = document.getElementById('webcam');
+  let camActiveSeconds = 0;
+  let tabSwitchCount = 0;
+  let camStreamActive = false;
+
+  // Timer to check webcam stream active every second
+  setInterval(() => {
+    if (video.srcObject && video.srcObject.active) {
+      camActiveSeconds++;
+    }
+  }, 1000);
+
+  // Tab switch detection
+  window.addEventListener('blur', () => {
+    tabSwitchCount++;
+  });
+
+  // Store proctoring data to sessionStorage when user submits the form
+  quizForm.addEventListener('submit', () => {
+    // Store cumulative data or reset for new test
+    let totalTime = sessionStorage.getItem('totalTime') || 0;
+    let camTime = sessionStorage.getItem('camActive') || 0;
+    let tabs = sessionStorage.getItem('tabSwitches') || 0;
+
+    // Accumulate
+    totalTime = parseInt(totalTime) + 1;
+    camTime = parseInt(camTime) + camActiveSeconds;
+    tabs = parseInt(tabs) + tabSwitchCount;
+
+    sessionStorage.setItem('totalTime', totalTime);
+    sessionStorage.setItem('camActive', camTime);
+    sessionStorage.setItem('tabSwitches', tabs);
+
+    // Reset counters for next question
+    camActiveSeconds = 0;
+    tabSwitchCount = 0;
+  });
+
+  // Start webcam
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then((stream) => {
+      video.srcObject = stream;
+      camStreamActive = true;
+    })
+    .catch((err) => {
+      alert('Webcam access denied. The test requires webcam monitoring.');
+      camStreamActive = false;
+    });
+</script>
+</body>
+</html>

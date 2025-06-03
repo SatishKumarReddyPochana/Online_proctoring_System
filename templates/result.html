@@ -1,0 +1,46 @@
+<!-- templates/result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container center">
+    <h1>Test Completed</h1>
+
+    <div class="score-box">
+      <p><strong>Score:</strong> {{ score }} / {{ total }}</p>
+      <p><strong>Time Taken:</strong> {{ time }} seconds</p>
+      <hr>
+      <h3>Proctoring Summary</h3>
+      <p><strong>Webcam Status:</strong> <span id="camStatus">Loading...</span></p>
+      <p><strong>Tab Switches:</strong> <span id="tabCount">0</span></p>
+      <p><strong>Overall Status:</strong> <span id="finalStatus">Analyzing...</span></p>
+    </div>
+
+    <a href="/" class="btn">Retake Test</a>
+  </div>
+
+  <script>
+    // Read proctoring data from sessionStorage
+    const camActive = parseInt(sessionStorage.getItem("camActive")) || 0;
+    const totalTime = parseInt(sessionStorage.getItem("totalTime")) || 1;
+    const tabSwitches = parseInt(sessionStorage.getItem("tabSwitches")) || 0;
+
+    const percent = Math.floor(((camActive / totalTime) * 100)/10);
+    const camStatus = percent <= 80 ? "Good" : "Poor";
+    const statusColor = percent <= 80 && tabSwitches <= 2 ? "green" : "red";
+
+    document.getElementById("camStatus").innerText = `${percent}% (${camStatus})`;
+    document.getElementById("tabCount").innerText = tabSwitches;
+    document.getElementById("finalStatus").innerHTML = `<span style="color:${statusColor}; font-weight:bold;">${statusColor === "green" ? "Clean" : "Suspicious"}</span>`;
+
+    // Clear proctoring data for next test (optional)
+    sessionStorage.removeItem("camActive");
+    sessionStorage.removeItem("totalTime");
+    sessionStorage.removeItem("tabSwitches");
+  </script>
+</body>
+</html>
